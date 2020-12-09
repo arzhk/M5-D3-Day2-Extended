@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Button } from "react-bootstrap";
 
-function GetAllStudents() {
-  const fetchAllStudents = async () => {
+function GetAllProjects() {
+  const fetchAllProjects = async () => {
     try {
-      const response = await fetch("http://localhost:3001/students/", {
+      const response = await fetch("http://localhost:3001/projects/", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -20,11 +20,11 @@ function GetAllStudents() {
   return (
     <Col xs={3} className="mb-3">
       <div className="dashboard-panel text-left">
-        <h4 className="font-weight-bold">Get all students</h4>
-        <Button onClick={fetchAllStudents}>Fetch students</Button>
+        <h4 className="font-weight-bold">Get all projects</h4>
+        <Button onClick={fetchAllProjects}>Fetch projects</Button>
       </div>
     </Col>
   );
 }
 
-export default GetAllStudents;
+export default GetAllProjects;

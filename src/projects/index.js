@@ -92,19 +92,36 @@ router.post(
 );
 
 // Edit project data
-router.put("/:id", (req, res) => {
-  try {
-    const targetFile = readFileHandler("projects.json");
-    const filteredFile = targetFile.filter((project) => project._id !== req.params.id);
-    const updatedProject = req.body;
-    updatedProject._id = req.params.id;
-    filteredFile.push(updatedProject);
-    writeFileHandler("projects.json", filteredFile);
-    res.send(filteredFile);
-  } catch (err) {
-    console.log(err);
+router.put(
+  "/:id",
+  [
+    check("name").isLength({ min: 3 }).withMessage("Name is too short!"),
+    check("description").isLength({ min: 8 }).withMessage("Description is too short!"),
+    check("repoURL").isLength({ min: 5 }).withMessage("Repo Url is too short!"),
+    check("liveURL").isLength({ min: 5 }).withMessage("Live Url is too short!"),
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    try {
+      if (!errors.isEmpty()) {
+        const err = new Error();
+        err.message = errors;
+        err.httpStatusCode = 400;
+        next(err);
+      } else {
+        const targetFile = readFileHandler("projects.json");
+        const filteredFile = targetFile.filter((project) => project._id !== req.params.id);
+        const updatedProject = req.body;
+        updatedProject._id = req.params.id;
+        filteredFile.push(updatedProject);
+        writeFileHandler("projects.json", filteredFile);
+        res.send(filteredFile);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
 
 // Delete student
 router.delete("/:id", (req, res) => {

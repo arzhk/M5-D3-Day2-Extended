@@ -1,6 +1,5 @@
-import { getElementError } from "@testing-library/react";
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Col, Button } from "react-bootstrap";
 
 function AddStudent(props) {
   const [name, setName] = React.useState("");
@@ -24,7 +23,10 @@ function AddStudent(props) {
           "Content-Type": "application/json",
         },
       });
-
+      setName("");
+      setSurname("");
+      setEmail("");
+      setDob("");
       if (data.ok) {
         props.getError("", false);
         props.getSuccess("New student sucessfully added", true);
@@ -58,22 +60,30 @@ function AddStudent(props) {
   };
 
   return (
-    <div className="dashboard-panel text-left">
-      <h4 className="font-weight-bold">Add student</h4>
-      <input className="d-block" type="text" placeholder="First name..." value={name} onChange={updateInputHandler} />
-      <input className="d-block" type="text" placeholder="Surname..." value={surname} onChange={updateInputHandler} />
-      <input
-        className="d-block"
-        type="email"
-        placeholder="Email address..."
-        value={email}
-        onChange={updateInputHandler}
-      />
-      <input className="d-block" type="date" placeholder="Date of birth..." value={dob} onChange={updateInputHandler} />
-      <Button variant="success" className="d-block" onClick={postDataHandler}>
-        Submit
-      </Button>
-    </div>
+    <Col xs={3} className="mb-3">
+      <div className="dashboard-panel text-left">
+        <h4 className="font-weight-bold">Add student</h4>
+        <input className="d-block" type="text" placeholder="First name..." value={name} onChange={updateInputHandler} />
+        <input className="d-block" type="text" placeholder="Surname..." value={surname} onChange={updateInputHandler} />
+        <input
+          className="d-block"
+          type="email"
+          placeholder="Email address..."
+          value={email}
+          onChange={updateInputHandler}
+        />
+        <input
+          className="d-block"
+          type="date"
+          placeholder="Date of birth..."
+          value={dob}
+          onChange={updateInputHandler}
+        />
+        <Button variant="success" className="d-block" onClick={postDataHandler}>
+          Submit
+        </Button>
+      </div>
+    </Col>
   );
 }
 
